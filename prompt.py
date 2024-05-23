@@ -77,7 +77,13 @@ class Prompt:
             dias_proximos += f"Dia {i+1} - {mapeamento_dias[data.weekday()]} (posições {pos_inicio}-{pos_fim} da sua previsão): {dia_util};\n"
         return dias_proximos
     
-    
+    def ultimo_dia(self):
+        df_transport = self.dataset
+        if df_transport is None or df_transport.empty:
+            return None
+        ultimo_dia = df_transport.tail(24)
+        dia = ultimo_dia['d_semana'].values[0]
+        return mapeamento_dias[dia]
     
     def prompt(self):
         prompt = f"""Você é um assistente de previsão de séries temporais encarregado de analisar dados de uma série temporal específica.
@@ -112,7 +118,6 @@ Organização dos Dados:
 - E assim por diante.
 - A cada 24 valores, ocorre a transição para o dia seguinte.
 - Dias em que temos feriado na série temporal:\n{self.feriados()}
-- O último valor da série temporal corresponde às 23 horas de uma segunda-feira, véspera de um feriado na terça-feira.
 
 Serie temporal a ser analisada:
 {self.dados_prompt}

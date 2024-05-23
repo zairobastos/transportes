@@ -78,7 +78,7 @@ if confirma:
     fig.add_trace(go.Scatter(x=list(range(len(exatos))), y=exatos, mode='lines', name='Valor Real'))
     fig.add_trace(go.Scatter(x=list(range(len(previsao))), y=previsao, mode='lines', name='Valor Previsto'))
     fig.update_layout(
-        title=f'Passageiros por Horário / 168 horas. Série Temporal({data_inicio} / {data_fim}) - Linha {linhas_onibus}',
+        title=f'Passageiros por Horário / {horas} horas / Série Temporal ({data_inicio} / {data_fim}) / Linha {linhas_onibus} / Tempratura {temperatura}',
         xaxis_title='Horário',
         yaxis_title='Passageiros',
         showlegend=True,
