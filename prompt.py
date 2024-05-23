@@ -14,7 +14,7 @@ mapeamento_dias = {
 }
 
 class Prompt:
-    def __init__(self, dataset, dados_prompt, dados_exato, data_inicio, data_fim,linha_onibus,df_exato):
+    def __init__(self, dataset, dados_prompt, dados_exato, data_inicio, data_fim,linha_onibus,df_exato, horas=24):
         self.dataset = dataset
         self.dados_prompt = dados_prompt
         self.dados_exato = dados_exato
@@ -22,6 +22,7 @@ class Prompt:
         self.data_fim = data_fim
         self.linha_onibus = linha_onibus
         self.df_exato = df_exato
+        self.horas = horas
 
     def primeiros_dias(self):
         df_transport = self.dataset
@@ -73,7 +74,7 @@ class Prompt:
             dia_util = "Dia útil" if data.weekday() < 5 else "Final de semana"
             if df_transport[df_transport['data_hora'].dt.date == data]['feriado'].values[0] == 1:
                 dia_util = "Feriado"
-            dias_proximos += f" - {mapeamento_dias[data.weekday()]} (posições {pos_inicio}-{pos_fim} da sua previsão): {dia_util};\n"
+            dias_proximos += f"Dia {i+1} - {mapeamento_dias[data.weekday()]} (posições {pos_inicio}-{pos_fim} da sua previsão): {dia_util};\n"
         return dias_proximos
     
     
@@ -93,42 +94,32 @@ Para fazer isso com precisão, leve em consideração os padrões sazonais, como
 Após analisar os dados fornecidos e compreender os padrões de tráfego, gere uma previsão para as próximas N horas. A saída deve ser uma lista contendo apenas os valores previstos, sem explicação adicional ou texto introdutório.
 
 Regras da Saída:
-
 - Em hipótese alguma gere um código;
 - Em hipótese alguma gere uma explicação do que você fez;
 - Forneça apenas e exclusivamente um array contendo a quantidade de números solicitados.
 
 Exemplo de Saída para N=24:
-
 [6, 0, 0, 0, 108, 303, 595, 463, 479, 513, 625, 697, 663, 690, 739, 876, 1083, 1157, 1121, 914, 627, 501, 686, 82]
 
 Instruções Adicionais:
-
 - Padrões Semanais: Utilize os dados fornecidos para entender padrões sazonais, como picos de incidência em determinados dias ou horários.
 - Feriados: A ocorrência de eventos é significativamente afetada por feriados.
 - Dia da Semana: O dia da semana também influencia a ocorrência de eventos. Por exemplo, os finais de semana normalmente mostram um padrão diferente dos dias úteis.
-- Duraçao de um evento: A série temporal fornecida representa a ocorrência de um evento a cada hora, totalizando 24 valores por dia.
+- Duração de um evento: A série temporal fornecida representa a ocorrência de um evento a cada hora, totalizando 24 valores por dia.
 
 Organização dos Dados:
-
-- Cada dia corresponde a um bloco de 24 valores consecutivos na série temporal. Por exemplo:
-
-{self.primeiros_dias()}
+- Cada dia corresponde a um bloco de 24 valores consecutivos na série temporal. Por exemplo:\n{self.primeiros_dias()}
 - E assim por diante.
 - A cada 24 valores, ocorre a transição para o dia seguinte.
-- Dias em que temos feriado na série temporal:
-
-{self.feriados()}
+- Dias em que temos feriado na série temporal:\n{self.feriados()}
 - O último valor da série temporal corresponde às 23 horas de uma segunda-feira, véspera de um feriado na terça-feira.
 
 Serie temporal a ser analisada:
 {self.dados_prompt}
 
-Contexto da semana a ser prevista:
+Contexto dos dias a serem previstos:\n{self.proximos_dias()}
 
-{self.proximos_dias()}
-
-Gere um array contendo os próximos 168 (N=168) números da sequência:
+Gere um array contendo os próximos {self.horas} (N={self.horas}) números da sequência:
 """
         return prompt
     

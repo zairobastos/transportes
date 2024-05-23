@@ -27,4 +27,4 @@ class Gemini:
         }
         model = genai.GenerativeModel(model_name=self.model_name)
         response = model.generate_content(self.prompt, generation_config=generation_config)
-        return response.text
+        return response.text, model.count_tokens(self.prompt)
