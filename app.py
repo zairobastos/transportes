@@ -9,6 +9,13 @@ import datetime
 import plotly.graph_objects as go
 import time
 import datetime
+import numpy as np
+
+def smape(a, f):
+    print(a)
+    print(f)
+
+    return 1/len(a) * np.sum(np.abs(f-a) / (np.abs(a) + np.abs(f))/2)
 
 
 # App title
@@ -69,6 +76,10 @@ if confirma:
     exatos = exatos[:horas]
     st.write("Tempo de execução:", tempo)
     st.write(tokens)
+    st.write("SMAPE:", smape(np.array(exatos),np.array(previsao)))
+    st.write("Exatos:")
+    st.markdown(exatos)
+    st.write("Previsão:")
     st.markdown(previsao)
     hora = datetime.datetime.now()
 
