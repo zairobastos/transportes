@@ -14,7 +14,7 @@ for model in genai.list_models():
         print(model.name)
 
 class Gemini:
-    def __init__(self, model_name, prompt, temperature, candidate_count):
+    def __init__(self, model_name:str, prompt:str, temperature:float, candidate_count:float):
         self.model_name = model_name
         self.prompt = prompt
         self.temperature = temperature
