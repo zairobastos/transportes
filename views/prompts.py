@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import date
-from prompt import Prompt
+from transporte.prompt import Prompt
 import pandas as pd
 class Prompts:
     def __init__(self, dataset: pd.DataFrame, passageiros: list[int], exatos: list[int], data_inicio: date, data_fim: date, linhas_onibus: int, df_exato: pd.DataFrame, horas:int):

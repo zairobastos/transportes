@@ -9,10 +9,6 @@ variables = os.getenv('API_KEY')
 
 genai.configure(api_key=variables)
 
-for model in genai.list_models():
-    if 'generateContent' in model.supported_generation_methods:
-        print(model.name)
-
 class Gemini:
     def __init__(self, model_name:str, prompt:str, temperature:float, candidate_count:float):
         self.model_name = model_name

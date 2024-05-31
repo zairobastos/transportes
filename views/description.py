@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import date
-from dados import Dados
+from transporte.dados import Dados
 
 class Description:
     def __init__(self, data_inicio: date, data_fim: date, linhas_onibus: int = 3):

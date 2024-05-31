@@ -1,7 +1,5 @@
 import pandas as pd
 import os
-from datetime import date
-from dados import Dados
 
 mapeamento_dias = {
     0: 'Segunda-feira',
@@ -85,10 +83,19 @@ class Prompt:
         dia = ultimo_dia['d_semana'].values[0]
         return mapeamento_dias[dia]
     
+    def quantidade_dias(self):
+        df_transport = self.dataset
+        if df_transport is None or df_transport.empty:
+            return None
+        
+        shape = df_transport.shape[0]
+        dias = shape // 24
+        return dias
+    
     def prompt(self):
         prompt = f"""Você é um assistente de previsão de séries temporais encarregado de analisar dados de uma série temporal específica.
         
-A série temporal tem dados de dois meses consecutivos. Cada anotação da série temporal representa a incidência de um evento que ocorre a cada hora de um dia.
+A série temporal tem dados de {self.quantidade_dias()} dia(s) consecutivos. Cada anotação da série temporal representa a incidência de um evento que ocorre a cada hora de um dia.
 
 Por exemplo, um dia nesta série temporal pode ser representado assim:
 {self.dados_prompt[:24]}
