@@ -1,0 +1,9 @@
+Introduçao
+Fundamentaçao Teorica
+    aprendizado de maquina (supervisionado - rede neural e nao supervisionado - llm (transforms (gemini google, gpt)))
+
+Trabalhos relacionados
+3 trabalhos (carlos)
+metodo
+resultado
+problema relacionado ao trabalhos relacionados
