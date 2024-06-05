@@ -25,14 +25,16 @@ class Estatisticas:
         previsao = [int(x.strip("] ")) for x in previsao_str.strip("[]\n").split(",")]
         previsao = previsao[:self.horas]
         exatos = self.exatos[:self.horas]
+        smape = Smape(exatos, previsao).calc()
+        tokens = int(str(tokens).split()[1])
 
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric(label='Tempo de execução', value=str(round(tempo_execucao, 2))+"s")
         with col2:
-            st.metric(label='Quantidade de Tokens', value=int(str(tokens).split()[1]))
+            st.metric(label='Quantidade de Tokens', value=tokens)
         with col3:
-            st.metric(label='SMAPE', value=Smape(exatos, previsao).calc())
+            st.metric(label='SMAPE', value=smape)
         
         st.write("---")
         st.write("### Resultados")
@@ -42,4 +44,4 @@ class Estatisticas:
         st.code(previsao)
 
         hora = datetime.now()
-        return previsao, hora, exatos
+        return previsao, hora, exatos, tokens, smape, tempo_execucao

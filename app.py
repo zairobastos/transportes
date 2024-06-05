@@ -8,6 +8,8 @@ from views.mercado.prompts import Prompts_Mercado
 from views.prompts import Prompts
 from views.api import Api
 from views.mercado.header import DescriptionMercado
+from database.crud_database import Crud
+import json
 
 
 # App title
@@ -48,13 +50,37 @@ if confirma:
     if tipo == 'Transportes':
         dataset, passageiros, exatos, df_exato = Description(data_inicio, data_fim,linhas_onibus).description_transporte()
         result_prompt = Prompts(dataset, passageiros, exatos, data_inicio, data_fim, linhas_onibus, df_exato, horas).prompt_view()
-        previsao, hora, exato = Estatisticas(modelo, result_prompt, temperatura, candidatos, horas, exatos).estatisticas()
+        previsao, hora, exato, tokens, smape = Estatisticas(modelo, result_prompt, temperatura, candidatos, horas, exatos).estatisticas()
         Grafico(previsao, hora, exato, data_inicio, data_fim, linhas_onibus, temperatura).grafico()
+        data_inicio = str(data_inicio)
+        data_fim = str(data_fim)
+
+        valores_exatos_str = json.dumps(exatos)
+        valores_previstos_str = json.dumps(previsao)
+
+        Crud().insert(
+            table='transporte', 
+            linha=linhas_onibus, 
+            data_inicio=str(data_inicio), 
+            data_fim=str(data_fim), 
+            horas=horas, 
+            modelo=modelo, 
+            temperatura=temperatura, 
+            candidatos=candidatos, 
+            prompt=result_prompt, 
+            valores_exatos=valores_exatos_str, 
+            valores_previstos=valores_previstos_str, 
+            smape=smape, 
+            tempo=hora, 
+            tokens=tokens
+        )
+
     else:
         df_mercado, dados_prompt, dados_exatos, df_exatos = DescriptionMercado(data_inicio, data_fim, produto).description_mercado()
         prompt = Prompts_Mercado(df_mercado, dados_exatos, dados_prompt, data_inicio, data_fim, produto, df_exatos, dias).prompt_view()
-        previsao, hora, exato = Estatisticas_Mercado(modelo, prompt, temperatura, candidatos, dias, dados_exatos[:dias]).estatisticas()
+        previsao, hora, exato, tokens = Estatisticas_Mercado(modelo, prompt, temperatura, candidatos, dias, dados_exatos[:dias]).estatisticas()
         Grafico(previsao, hora, exato, data_inicio, data_fim, produto, temperatura, "").grafico()
+        Crud().insert(table='mercado', produto=produto, data_inicio=data_inicio, data_fim=data_fim, dias=dias, modelo=modelo, temperatura=temperatura, candidatos=candidatos, prompt=prompt, valores_exatos=str(dados_exatos), valores_previstos=str(previsao), smape=hora, tempo=exato, tokens=tokens)
 else:
     st.write('## Confirme a escolha dos parâmetros para gerar a análise.')
     st.image("icons/undraw_search_re_x5gq.svg", width=500)
