@@ -44,4 +44,4 @@ class Estatisticas:
         st.code(previsao)
 
         hora = datetime.now()
-        return previsao, hora, exatos, tokens, smape, tempo_execucao
+        return previsao, hora, exatos, tokens, smape
