@@ -1,7 +1,9 @@
 import streamlit as st
 from datetime import date
-from transporte.prompt import Prompt
+from src.models.transporte_prompt_models import PromptTransporteModels
 import pandas as pd
+
+from src.views.transporte_prompt_view import PromptTransporteView
 class Prompts:
     def __init__(self, dataset: pd.DataFrame, passageiros: list[int], exatos: list[int], data_inicio: date, data_fim: date, linhas_onibus: int, df_exato: pd.DataFrame, horas:int):
         self.dataset = dataset
@@ -16,7 +18,17 @@ class Prompts:
     def prompt_view(self):
         st.write('---')
         st.write('### Prompt')
-        result = Prompt(self.dataset, self.passageiros, self.exatos, self.data_inicio, self.data_fim, self.linhas_onibus, self.df_exato[:self.horas], self.horas)
-        st.code(result.arquivos_prompt(), language='python',line_numbers=True)
+        dados_model_prompt = PromptTransporteModels(
+            dataset=self.dataset, 
+            dados_prompt=self.passageiros, 
+            dados_exato=self.exatos, 
+            data_inicio=self.data_inicio, 
+            data_fim=self.data_fim, 
+            linha_onibus=self.linhas_onibus, 
+            df_exato=self.df_exato, 
+            horas=self.horas
+        )
+        result = PromptTransporteView().exibirPrompt(dados_model_prompt)
+        st.code(result, language='python',line_numbers=True)
 
-        return result.arquivos_prompt()
+        return result

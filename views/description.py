@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import date
-from transporte.dados import Dados
+from src.models.transporte_dados_models import DadosTransporteModels
+from src.views.transporte_dados_view import DadosTransporteView
 
 class Description:
     def __init__(self, data_inicio: date, data_fim: date, linhas_onibus: int = 3):
@@ -17,8 +18,13 @@ class Description:
             st.metric(label="Data de início:", value=str(self.data_inicio))
         with col3:
             st.metric(label="Data de término:", value=str(self.data_fim))
-        teste = Dados('data/dados_onibus.csv', self.linhas_onibus, self.data_inicio, self.data_fim)
-        dataset, passageiros, exatos, df_exato = teste.selecionar_dados_prompt()
+        dados_transporte = DadosTransporteModels(
+            dataset='data/dados_onibus.csv', 
+            linhas_onibus=self.linhas_onibus, 
+            data_inicio=self.data_inicio, 
+            data_fim=self.data_fim
+        )
+        dataset, passageiros, exatos, df_exato = DadosTransporteView.executar(dados_transporte)
         print(dataset)
         st.write("Dataset:")
         st.dataframe(dataset, use_container_width=True)

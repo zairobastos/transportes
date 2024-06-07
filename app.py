@@ -1,4 +1,5 @@
 import streamlit as st
+from st_pages import Page, show_pages, add_page_title
 from datetime import date
 from views.description import Description
 from views.estatisticas import Estatisticas
@@ -15,6 +16,12 @@ import json
 # App title
 st.set_page_config(page_title="Previsão de Séries Temporais", page_icon=":bus:", layout="wide")
 
+show_pages(
+    [
+        Page("app.py","Home","🏠"),
+        Page("./pages/historico.py","Histórico","📜"),
+    ]
+)
 # Replicate Credentials
 with st.sidebar:
     st.write('### Parâmetros da Busca')
@@ -48,7 +55,7 @@ with st.sidebar:
 
 if confirma:
     if tipo == 'Transportes':
-        dataset, passageiros, exatos, df_exato = Description(data_inicio, data_fim,linhas_onibus).description_transporte()
+        dataset, passageiros, exatos, df_exato = Description(data_inicio, data_fim, linhas_onibus).description_transporte()
         result_prompt = Prompts(dataset, passageiros, exatos, data_inicio, data_fim, linhas_onibus, df_exato, horas).prompt_view()
         previsao, hora, exato, tokens, smape = Estatisticas(modelo, result_prompt, temperatura, candidatos, horas, exatos).estatisticas()
         Grafico(previsao, hora, exato, data_inicio, data_fim, linhas_onibus, temperatura).grafico()
@@ -84,5 +91,3 @@ if confirma:
 else:
     st.write('## Confirme a escolha dos parâmetros para gerar a análise.')
     st.image("icons/undraw_search_re_x5gq.svg", width=500)
-
-
