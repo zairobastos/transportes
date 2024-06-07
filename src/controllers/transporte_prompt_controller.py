@@ -67,6 +67,7 @@ class PromptTransporteController:
 
         return dias_feriados
     
+    @staticmethod
     def proximos_dias(df_exato:pd.DataFrame) -> str:
         """Retorna o contexto dos dias a serem previstos.
 

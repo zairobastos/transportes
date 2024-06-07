@@ -1,5 +1,6 @@
 # src/controllers/transporte_dados_controller.py
 import os
+from typing import Optional, Tuple
 import pandas as pd
 from datetime import date
 from src.models.transporte_dados_models import DadosTransporteModels
@@ -32,7 +33,7 @@ class DadosTransporteController:
         return None
 
     @classmethod
-    def analise_linhas(cls, df_transport:pd.DataFrame, linhas_onibus:int) -> tuple:
+    def analise_linhas(cls, df_transport:pd.DataFrame, linhas_onibus:int) -> pd.DataFrame:
         """Função responsável por selecionar a linha de ônibus
 
         Args:
@@ -40,7 +41,7 @@ class DadosTransporteController:
             linhas_onibus (int): Número da linha de ônibus selecionada pelo usuário
 
         Returns:
-            tuple: dataset com a linha selecionada e a linha de ônibus
+            pd.DataFrame: dataset com a linha selecionada
         """        
         if df_transport is None or df_transport.empty:
             return None, None
@@ -48,7 +49,7 @@ class DadosTransporteController:
         top_linhas = df_transport.groupby('linha')['validations_per_hour'].sum().sort_values(ascending=False).head(10)
         df_linha = df_transport[df_transport['linha'] == linhas_onibus]
 
-        return df_linha, linhas_onibus
+        return df_linha
     
     @classmethod
     def select_data(cls, df_linha:pd.DataFrame) -> pd.DataFrame:
@@ -174,18 +175,19 @@ class DadosTransporteController:
         return df_transport2
     
     @classmethod
-    def selecionar_dados_prompt(cls,df_transport:pd.DataFrame, data_inicio:date, data_fim:date)-> tuple:
+    def selecionar_dados_prompt(cls,df_transport:pd.DataFrame, data_inicio:date, data_fim:date)-> Tuple[Optional[pd.DataFrame], Optional[list], Optional[list], Optional[pd.DataFrame]]:
         """Gera o dataset final
 
         Args:
             df_transport (pd.DataFrame): Dataset com tudo ajustado
             data_inicio (date): data de inicio
             data_fim (date): data de fim
-        
+
         Returns:
-            tuple: dataframe contendo o intervalo de datas selecionados, uma lista com os passageiros desse dataframe,
-            uma lista contendo os próximos 168 valores e o datframe com esses valores.
-        """        
+            Tuple[Optional[pd.DataFrame], Optional[list], Optional[list], Optional[pd.DataFrame]]: dataframe contendo o intervalo 
+            de datas selecionados, uma lista com os passageiros desse dataframe, uma lista contendo os próximos 168 valores e o 
+            dataframe com esses valores.
+        """                
         if df_transport is None or df_transport.empty:
             return None, [], [], None
         

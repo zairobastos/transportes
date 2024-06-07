@@ -5,6 +5,18 @@ from datetime import date
 
 class Grafico:
     def __init__(self, previsao: list[int], hora:date, exatos:list[int], data_inicio:date, data_fim:date, linhas_onibus:int, temperatura:float, tipo:str = "Transportes"):
+        """ Inicializa uma nova instância da classe Grafico.
+
+        Args:
+            previsao (list[int]): Previsão dos dados.
+            hora (date): Hora.
+            exatos (list[int]): Exatos.
+            data_inicio (date): Data de início.
+            data_fim (date): Data de fim.
+            linhas_onibus (int): Linhas de ônibus.
+            temperatura (float): Temperatura.
+            tipo (str, optional): Tipo se é grafico para o transporte ou mercado. Defaults to "Transportes".
+        """        
         self.previsao = previsao
         self.hora = hora
         self.exatos = exatos
@@ -15,6 +27,8 @@ class Grafico:
         self.tipo = tipo
 
     def grafico(self):
+        """Exibe o gráfico
+        """        
         st.write('---')
         st.write('### Gráfico')
         fig = go.Figure()
@@ -30,10 +44,6 @@ class Grafico:
                 height=600,
             )
             st.plotly_chart(fig, use_container_width=True)
-            
-            if not os.path.exists(f'img/{self.linhas_onibus}'):
-                os.makedirs(f'img/{self.linhas_onibus}')
-            fig.write_image(f'img/{self.linhas_onibus}/grafico_{self.data_inicio}_{self.data_fim} {self.hora}.png', width=1400, height=600)
         else:
             fig.update_layout(
                 title=f'Vendas por Dia / {self.hora} dias / Série Temporal ({self.data_inicio} / {self.data_fim}) / Produto {self.linhas_onibus} / Tempratura {self.temperatura}',

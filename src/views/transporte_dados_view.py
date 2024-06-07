@@ -1,18 +1,20 @@
+from typing import Optional, Tuple
 from src.controllers.transporte_dados_controller import DadosTransporteController
 from src.models.transporte_dados_models import DadosTransporteModels
 import pandas as pd
 
 class DadosTransporteView:
     @classmethod
-    def executar(cls, dados_transporte: DadosTransporteModels) -> tuple:
+    def executar(cls, dados_transporte: DadosTransporteModels) -> Tuple[Optional[pd.DataFrame], Optional[list], Optional[list], Optional[pd.DataFrame]]:
         """Executa o fluxo de exibição e análise dos dados de transporte.
 
         Args:
             dados_transporte (DadosTransporteModels): DadosTransporteModels contendo as informações do dataset e filtros.
 
         Returns:
-            tuple: dataframe contendo o intervalo de datas selecionados, uma lista com os passageiros desse dataframe,
-            uma lista contendo os próximos 168 valores e o datframe com esses valores.
+            Tuple[Optional[pd.DataFrame], Optional[list], Optional[list], Optional[pd.DataFrame]]: dataframe contendo o intervalo de 
+            datas selecionados, uma lista com os passageiros desse dataframe,uma lista contendo os próximos 168 valores 
+            e o datframe com esses valores.
         """               
         # Exibir dados de transporte
         df_transport = DadosTransporteController.exibir(dados_transporte)
@@ -21,9 +23,9 @@ class DadosTransporteView:
             return None, [], [], None
 
         # Analisar linhas de ônibus
-        df_linha, linha_selecionada = DadosTransporteController.analise_linhas(df_transport, dados_transporte.linhas_onibus)
+        df_linha = DadosTransporteController.analise_linhas(df_transport, dados_transporte.linhas_onibus)
         if not cls.verifica(df_linha):
-            print(f"Nenhum dado encontrado para a linha de ônibus: {linha_selecionada}.")
+            print(f"Nenhum dado encontrado para a linha de ônibus.")
             return None, [], [], None
 
         # Selecionar dados por data

@@ -1,6 +1,3 @@
-* [ ] SMAPE
-* [ ] Supermercado
-* [ ] LSTM comparar
-* [ ] GPT API
+### TO-DO
 
-1.
+* [ ] GPT API

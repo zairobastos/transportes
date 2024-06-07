@@ -1,14 +1,19 @@
 import numpy as np
 
-class Smape:
-    def __init__(self, real: list[int], previsto: list[int]):
-        self.real = real
-        self.previsto = previsto
+from src.models.smape_model import SmapeModel
 
-    def calc(self) -> float:
+class SmapeController:
+    def calc(dados: SmapeModel) -> str:
+        """Calcula o erro de previsão entre os dados reais e previstos
 
-        real = self.real[:168]
-        previsto = self.previsto[:168]
+        Args:
+            dados (SmapeModel): recebe os dados reais e previstos
+
+        Returns:
+            str: retorna o erro de previsão
+        """
+        real = dados.real[:168]
+        previsto = dados.previsto[:168]
 
         real, previsto = np.array(real), np.array(previsto)
         numerador = np.abs(real - previsto)

@@ -1,16 +1,20 @@
 import streamlit as st
 from st_pages import Page, show_pages, add_page_title
 from datetime import date
-from views.description import Description
-from views.estatisticas import Estatisticas
-from views.grafico import Grafico
-from views.mercado.estatisticas import Estatisticas_Mercado
-from views.mercado.prompts import Prompts_Mercado
-from views.prompts import Prompts
-from views.api import Api
-from views.mercado.header import DescriptionMercado
-from database.crud_database import Crud
 import json
+
+from src.views.description_transporte_streamlit import DescriptionTransporte
+from src.views.estatisticas_transporte_streamlit import EstatisticasTransporte
+from src.views.prompts_transporte_streamlit import PromptsTransporte
+
+from src.views.description_mercado_streamlit import DescriptionMercado
+from src.views.estatisticas_mercado_streamlit import EstatisticasMercado
+from src.views.prompts_mercado_streamlit import PromptsMercado
+
+
+from src.views.api_streamlit import Api
+from src.views.grafico import Grafico
+from database.crud_database import Crud
 
 
 # App title
@@ -55,9 +59,9 @@ with st.sidebar:
 
 if confirma:
     if tipo == 'Transportes':
-        dataset, passageiros, exatos, df_exato = Description(data_inicio, data_fim, linhas_onibus).description_transporte()
-        result_prompt = Prompts(dataset, passageiros, exatos, data_inicio, data_fim, linhas_onibus, df_exato, horas).prompt_view()
-        previsao, hora, exato, tokens, smape = Estatisticas(modelo, result_prompt, temperatura, candidatos, horas, exatos).estatisticas()
+        dataset, passageiros, exatos, df_exato = DescriptionTransporte(data_inicio, data_fim, linhas_onibus).description_transporte()
+        result_prompt = PromptsTransporte(dataset, passageiros, exatos, data_inicio, data_fim, linhas_onibus, df_exato, horas).prompt_view()
+        previsao, hora, exato, tokens, smape = EstatisticasTransporte(modelo, result_prompt, temperatura, candidatos, horas, exatos).estatisticas()
         Grafico(previsao, hora, exato, data_inicio, data_fim, linhas_onibus, temperatura).grafico()
         data_inicio = str(data_inicio)
         data_fim = str(data_fim)
@@ -84,8 +88,8 @@ if confirma:
 
     else:
         df_mercado, dados_prompt, dados_exatos, df_exatos = DescriptionMercado(data_inicio, data_fim, produto).description_mercado()
-        prompt = Prompts_Mercado(df_mercado, dados_exatos, dados_prompt, data_inicio, data_fim, produto, df_exatos, dias).prompt_view()
-        previsao, hora, exato, tokens = Estatisticas_Mercado(modelo, prompt, temperatura, candidatos, dias, dados_exatos[:dias]).estatisticas()
+        prompt = PromptsMercado(df_mercado, dados_exatos, dados_prompt, data_inicio, data_fim, produto, df_exatos, dias).prompt_view()
+        previsao, hora, exato, tokens = EstatisticasMercado(modelo, prompt, temperatura, candidatos, dias, dados_exatos[:dias]).estatisticas()
         Grafico(previsao, hora, exato, data_inicio, data_fim, produto, temperatura, "").grafico()
         Crud().insert(table='mercado', produto=produto, data_inicio=data_inicio, data_fim=data_fim, dias=dias, modelo=modelo, temperatura=temperatura, candidatos=candidatos, prompt=prompt, valores_exatos=str(dados_exatos), valores_previstos=str(previsao), smape=hora, tempo=exato, tokens=tokens)
 else:

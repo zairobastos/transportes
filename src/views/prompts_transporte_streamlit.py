@@ -1,11 +1,24 @@
 import streamlit as st
 from datetime import date
-from src.models.transporte_prompt_models import PromptTransporteModels
 import pandas as pd
 
+from src.models.transporte_prompt_models import PromptTransporteModels
 from src.views.transporte_prompt_view import PromptTransporteView
-class Prompts:
+
+class PromptsTransporte:
     def __init__(self, dataset: pd.DataFrame, passageiros: list[int], exatos: list[int], data_inicio: date, data_fim: date, linhas_onibus: int, df_exato: pd.DataFrame, horas:int):
+        """ Inicializa uma nova instância da classe PromptsTransporte.
+
+        Args:
+            dataset (pd.DataFrame): Dataset contendo os dados de transporte.
+            passageiros (list[int]): Lista de passageiros.
+            exatos (list[int]): Lista de exatos.
+            data_inicio (date): Data de início.
+            data_fim (date): Data de fim.
+            linhas_onibus (int): Linhas de ônibus.
+            df_exato (pd.DataFrame): Dataset contendo os dados exatos.
+            horas (int): Horas.
+        """        
         self.dataset = dataset
         self.passageiros = passageiros
         self.exatos = exatos
@@ -15,7 +28,12 @@ class Prompts:
         self.df_exato = df_exato
         self.horas = horas
 
-    def prompt_view(self):
+    def prompt_view(self) -> str:
+        """Exibe o prompt
+
+        Returns:
+            str: Retorna o prompt
+        """        
         st.write('---')
         st.write('### Prompt')
         dados_model_prompt = PromptTransporteModels(
