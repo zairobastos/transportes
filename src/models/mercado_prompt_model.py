@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import date
 
 class PromptMercadoModels:
-    def __init__(self, dataset: pd.DataFrame, exatos: list, dados_prompt: list, data_inicio: date, data_fim: date, produto: int, df_exato: pd.DataFrame, dias:int):
+    def __init__(self, dataset: pd.DataFrame, exatos: list, dados_prompt: list,  df_exato: pd.DataFrame, dias:int):
         """ Inicializa uma nova instância da classe PromptMercadoModels.
 
         Args:
@@ -17,9 +17,6 @@ class PromptMercadoModels:
         """        
         self.dataset = dataset
         self.exatos = exatos
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
-        self.produto = produto
         self.df_exato = df_exato
         self.dias = dias
         self.dados_prompt = dados_prompt

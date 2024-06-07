@@ -88,10 +88,32 @@ if confirma:
 
     else:
         df_mercado, dados_prompt, dados_exatos, df_exatos = DescriptionMercado(data_inicio, data_fim, produto).description_mercado()
-        prompt = PromptsMercado(df_mercado, dados_exatos, dados_prompt, data_inicio, data_fim, produto, df_exatos, dias).prompt_view()
-        previsao, hora, exato, tokens = EstatisticasMercado(modelo, prompt, temperatura, candidatos, dias, dados_exatos[:dias]).estatisticas()
+        prompt = PromptsMercado(dataset=df_mercado, exatos=dados_exatos, dados_prompt=dados_prompt, produto=produto, df_exato=df_exatos, dias=dias).prompt_view()
+        previsao, hora, exato, tokens,smape = EstatisticasMercado(modelo, prompt, temperatura, candidatos, dias, dados_exatos[:dias]).estatisticas()
         Grafico(previsao, hora, exato, data_inicio, data_fim, produto, temperatura, "").grafico()
-        Crud().insert(table='mercado', produto=produto, data_inicio=data_inicio, data_fim=data_fim, dias=dias, modelo=modelo, temperatura=temperatura, candidatos=candidatos, prompt=prompt, valores_exatos=str(dados_exatos), valores_previstos=str(previsao), smape=hora, tempo=exato, tokens=tokens)
+
+        data_inicio = str(data_inicio)
+        data_fim = str(data_fim)
+
+        valores_exatos_str = json.dumps(exato)
+        valores_previstos_str = json.dumps(previsao)
+
+        Crud().insert(
+            table='mercado', 
+            produto=produto, 
+            data_inicio=data_inicio, 
+            data_fim=data_fim, 
+            dias=dias, 
+            modelo=modelo, 
+            temperatura=temperatura, 
+            candidatos=candidatos, 
+            prompt=prompt, 
+            valores_exatos=valores_exatos_str, 
+            valores_previstos=valores_previstos_str, 
+            smape=smape, 
+            tempo=hora, 
+            tokens=tokens
+        )
 else:
     st.write('## Confirme a escolha dos parâmetros para gerar a análise.')
     st.image("icons/undraw_search_re_x5gq.svg", width=500)

@@ -44,5 +44,7 @@ class DescriptionTransporte:
         st.dataframe(dataset, use_container_width=True)
         st.write("Descrição do Dataset:")
         st.dataframe(dataset.describe(), use_container_width=True)
+        st.write("DF Exato:")
+        st.dataframe(df_exato, use_container_width=True)
 
         return dataset, passageiros, exatos, df_exato

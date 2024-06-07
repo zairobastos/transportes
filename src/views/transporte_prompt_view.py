@@ -16,7 +16,7 @@ class PromptTransporteView:
         """
         primeiros_dias = PromptTransporteController.primeiros_dias(dados.dataset)
         feriados = PromptTransporteController.feriados(dados.dataset)
-        proximos_dias = PromptTransporteController.proximos_dias(dados.dataset)
+        proximos_dias = PromptTransporteController.proximos_dias(dados.df_exato)
         quantidade_dias = PromptTransporteController.quantidade_dias(dados.dataset)
         prompt = PromptTransporteController.prompt(
             quantidade_dias=quantidade_dias, 
@@ -25,6 +25,7 @@ class PromptTransporteView:
             proximos_dias=proximos_dias,
             dados_prompt= dados.dados_prompt,
             horas=dados.horas
+            
         )  
 
         return prompt  

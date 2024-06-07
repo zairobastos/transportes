@@ -6,7 +6,7 @@ from src.models.mercado_prompt_model import PromptMercadoModels
 from src.views.mercado_prompt_view import PromptMercadoView
 
 class PromptsMercado:
-    def __init__(self, dataset: pd.DataFrame, exatos: list, dados_prompt: list, data_inicio: date, data_fim: date, produto: int, df_exato: pd.DataFrame, dias:int):
+    def __init__(self, dataset: pd.DataFrame, exatos: list, dados_prompt: list, produto: int, df_exato: pd.DataFrame, dias:int):
         """ Inicializa uma nova instância da classe Prompts_Mercado.
 
         Args:
@@ -21,9 +21,6 @@ class PromptsMercado:
         """        
         self.dataset = dataset
         self.exatos = exatos
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
-        self.produto = produto
         self.df_exato = df_exato
         self.dias = dias
         self.dados_prompt = dados_prompt
@@ -40,9 +37,6 @@ class PromptsMercado:
             dataset=self.dataset,
             exatos=self.exatos,
             dados_prompt=self.dados_prompt,
-            data_inicio=self.data_inicio,
-            data_fim=self.data_fim,
-            produto=self.produto,
             df_exato=self.df_exato,
             dias=self.dias
         )

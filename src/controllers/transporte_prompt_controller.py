@@ -81,6 +81,7 @@ class PromptTransporteController:
             return None
             
         list_datas_proximos_dias = df_exato['data_hora'].dt.date.unique().tolist()
+        print(list_datas_proximos_dias)
         dias_proximos = ""
         for i, data in enumerate(list_datas_proximos_dias):
             pos_inicio = i * 24

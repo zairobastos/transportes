@@ -20,10 +20,8 @@ class PromptMercadoView:
             quantidade_dias=quantidade_dias, 
             primeiros_dias=primeiros_dias, 
             proximos_dias=proximos_dias,
-            dados_prompt= dados.dados_prompt,
-            data_inicio=dados.data_inicio,
-            data_fim=dados.data_fim,
-            produto=dados.produto
+            dados_prompt=dados.dados_prompt,
+            dias=dados.dias
         )  
 
         return prompt

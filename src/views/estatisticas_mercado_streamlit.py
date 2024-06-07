@@ -43,12 +43,13 @@ class EstatisticasMercado:
         exatos = self.exatos[:self.dias]
         smape_model = SmapeModel(real=exatos, previsto=previsao)
         smape = SmapeView.executar(smape_model)
+        tokens = int(str(tokens).split()[1])
 
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric(label='Tempo de execução', value=str(round(tempo_execucao, 2))+"s")
         with col2:
-            st.metric(label='Quantidade de Tokens', value=int(str(tokens).split()[1]))
+            st.metric(label='Quantidade de Tokens', value=tokens)
         with col3:
             st.metric(label='SMAPE', value=smape)
         
@@ -60,4 +61,4 @@ class EstatisticasMercado:
         st.code(previsao)
 
         hora = datetime.now()
-        return previsao, hora, exatos
+        return previsao, hora, exatos, tokens, smape
