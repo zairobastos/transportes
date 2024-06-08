@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from datetime import date
 from src.models.transporte_dados_models import DadosTransporteModels
-from src.views.transporte_dados_view import DadosTransporteView
+from src.views.transporte.transporte_dados_view import DadosTransporteView
 
 class DescriptionTransporte:
     def __init__(self, data_inicio: date, data_fim: date, linhas_onibus: int = 3):

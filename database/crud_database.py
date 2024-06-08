@@ -31,8 +31,10 @@ class Crud:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", valores_para_inserir)
                 self.connection.commit()
                 print("Dados inseridos com sucesso!")
+                return True
             except sqlite3.Error as e:
                 print(f"Erro ao inserir dados na tabela transporte: {e}")
+                return False
         elif kwargs.get("table") == "mercado":
             try:                
                 valores_para_inserir = (
@@ -56,8 +58,10 @@ class Crud:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", valores_para_inserir)
                 self.connection.commit()
                 print("Dados inseridos com sucesso!")
+                return True
             except sqlite3.Error as e:
                 print(f"Erro ao inserir dados na tabela mercado: {e}")
+                return False
         else:
             print("Tabela não encontrada!")
 

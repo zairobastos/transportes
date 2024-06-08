@@ -1,13 +1,12 @@
-from typing import Tuple
 import streamlit as st
 import time
 from datetime import datetime
-from src.views.gemini import Gemini
 from src.models.smape_model import SmapeModel
-from src.views.smape_view import SmapeView
+from src.views.streamlit.gemini import Gemini
+from src.views.streamlit.smape_view import SmapeView
 
-class EstatisticasTransporte:
-    def __init__(self, modelo:str, result_prompt:str, temperatura:float, candidatos:int, horas:int, exatos:list):
+class EstatisticasMercado:
+    def __init__(self, modelo:str, result_prompt:str, temperatura:float, candidatos:int, dias:int, exatos:list):
         """ Inicializa uma nova instância da classe Estatisticas.
 
         Args:
@@ -15,21 +14,21 @@ class EstatisticasTransporte:
             result_prompt (str): Resultado do prompt.
             temperatura (float): Nível de criatividade do modelo.
             candidatos (int): Quantidade de respostas do modelo.
-            horas (int): Horas.
+            dias (int): Dias.
             exatos (list): Lista de exatos.
         """        
         self.modelo = modelo
         self.result_prompt = result_prompt
         self.temperatura = temperatura
         self.candidatos = candidatos
-        self.horas = horas
+        self.dias = dias
         self.exatos = exatos
 
-    def estatisticas(self) -> Tuple[list, datetime, list, int, str]:
+    def estatisticas(self)-> tuple[list, datetime, list]:
         """Executa a descrição e análise dos dados de transporte.
 
         Returns:
-            Tuple[list, datetime, list, int, str]: Previsão, hora, exatos, tokens e smape.
+            tuple[list, datetime, list]: Previsão, hora e exatos.
         """        
         st.write('---')
         st.write('### Estatística')
@@ -39,9 +38,9 @@ class EstatisticasTransporte:
         previsao_str, tokens = modelo_gemini.generate()
         tempo_execucao = time.time() - tempo_inicio
         
-        previsao = [int(x.strip("] ")) for x in previsao_str.strip("[]\n").split(",")]
-        previsao = previsao[:self.horas]
-        exatos = self.exatos[:self.horas]
+        previsao = [float(x.strip("] ")) for x in previsao_str.strip("[]\n").split(",")]
+        previsao = previsao[:self.dias]
+        exatos = self.exatos[:self.dias]
         smape_model = SmapeModel(real=exatos, previsto=previsao)
         smape = SmapeView.executar(smape_model)
         tokens = int(str(tokens).split()[1])

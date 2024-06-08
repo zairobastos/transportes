@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 
 from src.models.mercado_prompt_model import PromptMercadoModels
-from src.views.mercado_prompt_view import PromptMercadoView
+from src.views.mercado.mercado_prompt_view import PromptMercadoView
 
 class PromptsMercado:
     def __init__(self, dataset: pd.DataFrame, exatos: list, dados_prompt: list, produto: int, df_exato: pd.DataFrame, dias:int):

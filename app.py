@@ -3,17 +3,17 @@ from st_pages import Page, show_pages, add_page_title
 from datetime import date
 import json
 
-from src.views.description_transporte_streamlit import DescriptionTransporte
-from src.views.estatisticas_transporte_streamlit import EstatisticasTransporte
-from src.views.prompts_transporte_streamlit import PromptsTransporte
+from src.views.transporte.description_transporte_streamlit import DescriptionTransporte
+from src.views.transporte.estatisticas_transporte_streamlit import EstatisticasTransporte
+from src.views.transporte.prompts_transporte_streamlit import PromptsTransporte
 
-from src.views.description_mercado_streamlit import DescriptionMercado
-from src.views.estatisticas_mercado_streamlit import EstatisticasMercado
-from src.views.prompts_mercado_streamlit import PromptsMercado
+from src.views.mercado.description_mercado_streamlit import DescriptionMercado
+from src.views.mercado.estatisticas_mercado_streamlit import EstatisticasMercado
+from src.views.mercado.prompts_mercado_streamlit import PromptsMercado
 
 
-from src.views.api_streamlit import Api
-from src.views.grafico import Grafico
+from src.views.streamlit.api_streamlit import Api
+from src.views.streamlit.grafico import Grafico
 from database.crud_database import Crud
 
 
@@ -50,7 +50,7 @@ with st.sidebar:
         data_inicio = st.date_input(label='Data de início', max_value=data_max, min_value=data_min, value=date(2017, 1, 2))
         data_fim = st.date_input(label='Data de término', max_value=data_max, min_value=data_min, value=date(2017, 1, 2))
 
-        dias = st.slider(label='Dias', min_value=1, max_value=7, value=7, step=1)
+        dias = st.slider(label='Dias', min_value=1, max_value=7, value=60, step=1)
 
     modelo, temperatura, candidatos = Api().run()
 
@@ -69,7 +69,7 @@ if confirma:
         valores_exatos_str = json.dumps(exatos)
         valores_previstos_str = json.dumps(previsao)
 
-        Crud().insert(
+        database = Crud().insert(
             table='transporte', 
             linha=linhas_onibus, 
             data_inicio=str(data_inicio), 
@@ -98,7 +98,7 @@ if confirma:
         valores_exatos_str = json.dumps(exato)
         valores_previstos_str = json.dumps(previsao)
 
-        Crud().insert(
+        database = Crud().insert(
             table='mercado', 
             produto=produto, 
             data_inicio=data_inicio, 
@@ -114,6 +114,11 @@ if confirma:
             tempo=hora, 
             tokens=tokens
         )
+
+    if database:
+        st.success('Dados inseridos com sucesso!', icon='✅')
+    else:
+        st.error('Erro ao inserir dados!', icon='❌')
 else:
     st.write('## Confirme a escolha dos parâmetros para gerar a análise.')
     st.image("icons/undraw_search_re_x5gq.svg", width=500)

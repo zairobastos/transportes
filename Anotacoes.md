@@ -10,6 +10,7 @@
 * [X] Documentação
 * [X] Gerar os Bancos de Dados Sqlite
 * [X] SMAPE
+* [ ] 60 dias do mercado
 
 ---
 

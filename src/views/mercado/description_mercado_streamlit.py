@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from datetime import date
 from src.models.mercado_dados_models import DadosMercadoModels
-from src.views.mercado_dados_views import DadosMercadoView
+from src.views.mercado.mercado_dados_views import DadosMercadoView
 
 class DescriptionMercado:
     def __init__(self, data_inicio: date, data_fim: date, produto: int = 550):

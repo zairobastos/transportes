@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 
 from src.models.transporte_prompt_models import PromptTransporteModels
-from src.views.transporte_prompt_view import PromptTransporteView
+from src.views.transporte.transporte_prompt_view import PromptTransporteView
 
 class PromptsTransporte:
     def __init__(self, dataset: pd.DataFrame, passageiros: list[int], exatos: list[int], data_inicio: date, data_fim: date, linhas_onibus: int, df_exato: pd.DataFrame, horas:int):
