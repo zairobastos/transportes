@@ -2,15 +2,15 @@
 
 * [ ] GPT API
 * [ ] Adicionar Feriados e Verificar se os dados estão sequenciais no dataset de Mercardo
-* [ ] Página de Histórico
-  * [ ] Histórico das Linhas de Ônibus de Fortaleza;
-  * [ ] Histórico do Supermercado;
-  * [ ] Geração de Filtros (linha e produto, smape)
+* [X] Página de Histórico
+  * [X] Histórico das Linhas de Ônibus de Fortaleza;
+  * [X] Histórico do Varejo;
+  * [X] Geração de Filtros (linha e produto, smape)
 * [X] Padronizar o código com MVC
 * [X] Documentação
 * [X] Gerar os Bancos de Dados Sqlite
 * [X] SMAPE
-* [ ] 60 dias do mercado
+* [X] 60 dias do mercado
 
 ---
 

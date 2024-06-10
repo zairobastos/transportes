@@ -96,6 +96,9 @@ class Crud:
 
             if isinstance(value, str):
                 value = f"'{value}'"  # Aspa simples para valores de string
+            if column == "smape":
+                where_clauses.append(f"{column} <= {value}")
+                continue
             where_clauses.append(f"{column} = {value}")
 
         where_clause = " AND ".join(where_clauses)
