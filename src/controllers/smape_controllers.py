@@ -22,6 +22,6 @@ class SmapeController:
         denominador = [denominador[i] if denominador[i]!=0 else 1 for i in range(len(denominador))]
         denominador = np.array(denominador)
         
-        smape = str(round(np.mean(numerador / (denominador/2))*100, 2))+ "%"
+        smape = round(np.mean(numerador / (denominador/2))*100, 2)
         
         return smape

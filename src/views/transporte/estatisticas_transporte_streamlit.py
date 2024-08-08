@@ -44,6 +44,7 @@ class EstatisticasTransporte:
         exatos = self.exatos[:self.horas]
         smape_model = SmapeModel(real=exatos, previsto=previsao)
         smape = SmapeView.executar(smape_model)
+        smape2 = str(smape) + "%"
         tokens = int(str(tokens).split()[1])
 
         col1, col2, col3 = st.columns(3)
@@ -52,7 +53,7 @@ class EstatisticasTransporte:
         with col2:
             st.metric(label='Quantidade de Tokens', value=tokens)
         with col3:
-            st.metric(label='SMAPE', value=smape)
+            st.metric(label='SMAPE', value=smape2)
         
         st.write("---")
         st.write("### Resultados")

@@ -139,7 +139,50 @@ class PromptTransporteController:
             str: Prompt para a LLM.
         """              
         controller_prompt = PromptTransporteController()
-        prompt = f"""Você é um assistente de previsão de séries temporais encarregado de analisar dados de uma série temporal específica.
+        prompt = f""" Você é um assistente de previsão de séries temporais encarregado de analisar dados de uma série temporal específica.
+        
+A série temporal tem dados de {quantidade_dias} período(s) consecutivos. Cada anotação da série temporal representa a incidência de um evento que ocorre a cada hora.
+
+Por exemplo, um série temporal pode ser representado assim:
+{dados_prompt[:24]}
+
+Seu objetivo é prever a incidência de um evento para as próximas N horas, levando em consideração não apenas os períodos anteriores, mas também o contexto geral.
+
+Para fazer isso com precisão, leve em consideração: 
+- Padrões sazonais: Identifique picos em determinados períodos. 
+- Variações de Padrões: Padrões podem variar de acordo com o dia da semana ou eventos especiais (feriados, fins de semana).
+
+Regras da Saída:
+Após analisar os dados fornecidos e compreender os padrões de tráfego, gere uma previsão para as próximas N horas, com as seguintes regras: 
+- A saída deve ser uma lista contendo apenas os valores previstos, sem explicação adicional ou texto introdutório.
+- Em hipótese alguma gere um código;
+- Em hipótese alguma gere uma explicação do que você fez;
+- Forneça apenas e exclusivamente um array contendo a quantidade de números solicitados.
+- A previsão deve começar imediatamente após o último dado fornecido.
+
+Exemplo de Saída para N=24:
+[6, 0, 0, 0, 108, 303, 595, 463, 479, 513, 625, 697, 663, 690, 739, 876, 1083, 1157, 1121, 914, 627, 501, 686, 82]
+
+Instruções Adicionais:
+- Padrões Semanais: Utilize os dados fornecidos para entender padrões sazonais, como picos de incidência em determinados períodos.
+- Eventos Especiais: A ocorrência de eventos é significativamente afetada por feriados e outros eventos importantes.
+- Dia da Semana: O dia da semana também influencia a ocorrência de eventos. 
+- Duração de um evento: A série temporal fornecida representa a ocorrência de um evento a cada hora.
+
+Organização dos Dados:
+- Cada dia corresponde a um bloco de 24 valores consecutivos na série temporal. Por exemplo:\n{primeiros_dias}
+- E assim por diante.
+- A cada 24 valores, ocorre a transição para o próximo dia.
+- Períodos em que temos feriado na série temporal:\n{feriados}
+
+Serie temporal a ser analisada:
+{dados_prompt}
+
+Contexto dos dias a serem previstos:\n{proximos_dias}
+Gere um array contendo os próximos {horas} (N={horas}) números da sequência:
+"""
+
+        """prompt = fVocê é um assistente de previsão de séries temporais encarregado de analisar dados de uma série temporal específica.
         
 A série temporal tem dados de {quantidade_dias} dia(s) consecutivos. Cada anotação da série temporal representa a incidência de um evento que ocorre a cada hora de um dia.
 
@@ -178,5 +221,6 @@ Serie temporal a ser analisada:
 Contexto dos dias a serem previstos:\n{proximos_dias}
 
 Gere um array contendo os próximos {horas} (N={horas}) números da sequência:
+
 """
         return prompt

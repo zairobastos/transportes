@@ -34,6 +34,9 @@ class Gemini:
             "candidate_count": self.candidate_count,
             "temperature": self.temperature,
         }
+        """ for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                print(m.name) """
         model = genai.GenerativeModel(model_name=self.model_name)
         response = model.generate_content(self.prompt, generation_config=generation_config)
         return response.text, model.count_tokens(self.prompt)

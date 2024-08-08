@@ -9,12 +9,7 @@ class Grafico:
 
         Args:
             previsao (list[int]): Previsão dos dados.
-            hora (date): Hora.
             exatos (list[int]): Exatos.
-            data_inicio (date): Data de início.
-            data_fim (date): Data de fim.
-            linhas_onibus (int): Linhas de ônibus.
-            temperatura (float): Temperatura.
             tipo (str, optional): Tipo se é grafico para o transporte ou mercado. Defaults to "Transportes".
         """        
         self.previsao = previsao

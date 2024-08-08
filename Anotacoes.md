@@ -1,28 +1,41 @@
 ### TO-DO APP
 
-* [ ] GPT API
-* [ ] Adicionar Feriados e Verificar se os dados estão sequenciais no dataset de Mercardo
-* [X] Página de Histórico
-  * [X] Histórico das Linhas de Ônibus de Fortaleza;
-  * [X] Histórico do Varejo;
-  * [X] Geração de Filtros (linha e produto, smape)
-* [X] Padronizar o código com MVC
-* [X] Documentação
-* [X] Gerar os Bancos de Dados Sqlite
-* [X] SMAPE
-* [X] 60 dias do mercado
-
 ---
 
 ### Artigo
 
-1. Introdução;
-2. Fundamentação Teórica: Aprendizado de Máquina, Séries Temporais e Prompts CORS:
-   1. Supervisionado: Rede Neural;
-   2. Não Supervisionado:  LLM (Transforms, além do Gemini, GPT e outras LLMs);
-3. Trabalhos relacionados - 3 trabalhos incluindo o do professor (Carlos);
-4. Métodologia;
-5. Resultados;
-6. Observar os problemas presentes nos trabalhos relacionados;
+- Conjunto de Dados:
+  - Vão ser só esses dois conjuntos de dados? Varejo e Mobilidade
+  - Detalhei as correções feitas nos dados
+    - Mobilidade: Remorção de valores duplicados, adição de zero para os horários inoperantes da linha
+    - Varejo: Acréscimo da coluna de feriados nacionais
+  - Periodos de Treino e teste
+  - Origem dos dados
+  - 
+- Modelos Utilizados:
+  - Gemini
+  - ...
+- Prompt:
+  - Contexto
+  - Objetivo
+  - Importância de detalhar eventos (fim de semana e feriados) e demonstrar que existe uma sazonalidade e um determinado padrão nos dados
+  - Instruções adicionais
+  - Como os dados estão organizados
+  - Serie temporal
+  - Regras da Saída e um exemplo bem simples de como seria a resposta esperada
+  - Contexto dos primeiros 7 dias a serem previstos (fim de semana / feriado / dia útil)
+  - Solicitação da previsão
+- Ambiente de Execução
+  - Fluxograma de todo o processo
+  - Bibliotecas que utilizei
+- Métricas de Avaliação
+  - SMAPE
+  - ...
 
 ### TO-DO Artigo
+
+
+
+
+
+#### Anotações
